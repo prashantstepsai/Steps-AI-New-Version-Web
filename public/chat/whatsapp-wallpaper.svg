@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180" fill="none" stroke="#6b5a40" stroke-opacity="0.1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- chat bubble -->
+  <path d="M14 16h30a6 6 0 0 1 6 6v14a6 6 0 0 1-6 6H28l-8 7v-7h-6a6 6 0 0 1-6-6V22a6 6 0 0 1 6-6Z"/>
+  <path d="M18 26h22M18 32h14"/>
+  <!-- heart -->
+  <path d="M84 24c-3-5-11-4-11 3 0 6 11 12 11 12s11-6 11-12c0-7-8-8-11-3Z"/>
+  <!-- star -->
+  <path d="m142 12 3.5 7.5 8 1-6 5.5 1.6 8L142 30l-7.1 4 1.6-8-6-5.5 8-1Z"/>
+  <!-- paper plane -->
+  <path d="M10 92 46 78 36 110l-9-11-17-7Z M27 99l19-21"/>
+  <!-- coffee cup -->
+  <path d="M74 80h22v14a9 9 0 0 1-9 9h-4a9 9 0 0 1-9-9V80Z M96 84h4a4 4 0 0 1 0 8h-4 M80 70c0 3 3 3 3 6M88 70c0 3 3 3 3 6"/>
+  <!-- shopping bag -->
+  <path d="M132 78h26l-2 28h-22l-2-28Z M138 78v-4a7 7 0 0 1 14 0v4"/>
+  <!-- leaf -->
+  <path d="M16 160c0-18 14-28 32-28 0 18-12 30-32 28Z M16 160l18-16"/>
+  <!-- clock -->
+  <circle cx="90" cy="148" r="12"/>
+  <path d="M90 141v7l5 3"/>
+  <!-- dots -->
+  <circle cx="140" cy="146" r="2"/>
+  <circle cx="152" cy="146" r="2"/>
+  <circle cx="164" cy="146" r="2"/>
+  <circle cx="62" cy="56" r="1.5"/>
+  <circle cx="118" cy="52" r="1.5"/>
+  <circle cx="60" cy="122" r="1.5"/>
+  <circle cx="118" cy="122" r="1.5"/>
+</svg>

@@ -1,0 +1,132 @@
+/* Connect tools — two logo ribbons drifting in opposite directions.
+   Each track holds three identical sets, so a −33.333% shift loops seamlessly. */
+
+.ct-ribbons {
+  padding: 14px 0 22px;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+.ct-ribbon + .ct-ribbon {
+  margin-top: 18px;
+}
+.ct-track {
+  display: flex;
+  width: max-content;
+  animation: ct-drift 110s linear infinite;
+}
+.ct-ribbon-1 .ct-track {
+  margin-left: -58px;
+  animation-direction: reverse;
+  animation-duration: 125s;
+}
+.ct-ribbons:hover .ct-track {
+  animation-play-state: paused;
+}
+.ct-set {
+  display: flex;
+  gap: 20px;
+  padding-right: 20px;
+}
+
+.ct-tile {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  border-radius: 26px;
+  background: var(--surface);
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 1px 2px oklch(0.34 0.119 260 / 0.06),
+    0 12px 24px -18px oklch(0.34 0.119 260 / 0.25);
+  transition:
+    transform 260ms var(--ease-out),
+    box-shadow 260ms var(--ease-out);
+}
+.ct-tile:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 2px 4px oklch(0.34 0.119 260 / 0.07),
+    0 20px 32px -18px oklch(0.34 0.119 260 / 0.3);
+}
+.ct-tile img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+.ct-tile img[src$="woocommerce.svg"] {
+  width: 74px;
+  height: 74px;
+}
+.ct-tile img[src$="calendly.svg"] {
+  width: 64px;
+  height: 64px;
+}
+
+@keyframes ct-drift {
+  to {
+    transform: translateX(-33.333333%);
+  }
+}
+
+@media (max-width: 700px) {
+  .ct-tile {
+    width: 76px;
+    height: 76px;
+    border-radius: 20px;
+  }
+  .ct-tile img {
+    width: 34px;
+    height: 34px;
+  }
+  .ct-tile img[src$="woocommerce.svg"] {
+    width: 58px;
+    height: 58px;
+  }
+  .ct-tile img[src$="calendly.svg"] {
+    width: 50px;
+    height: 50px;
+  }
+  .ct-set {
+    gap: 12px;
+    padding-right: 12px;
+  }
+  .ct-ribbon + .ct-ribbon {
+    margin-top: 12px;
+  }
+  .ct-track {
+    animation-duration: 90s;
+  }
+  .ct-ribbon-1 .ct-track {
+    margin-left: -44px;
+    animation-duration: 105s;
+  }
+}
+
+/* Reduced motion: no drift — one static, wrapped grid of every logo */
+@media (prefers-reduced-motion: reduce) {
+  .ct-ribbons {
+    mask-image: none;
+  }
+  .ct-track {
+    width: auto;
+    justify-content: center;
+    animation: none;
+  }
+  .ct-set {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+  .ct-ribbon-1 .ct-track {
+    margin-left: 0;
+  }
+  .ct-set[aria-hidden="true"] {
+    display: none;
+  }
+  .ct-tile {
+    transition: none;
+  }
+}

@@ -1,0 +1,612 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Tokens ────────────────────────────────────────────────────────────
+   Light theme only, from the Steps AI colour family (Oct 2026):
+   Pure White canvas (~60%), Deep Navy voice (~25%), Ice Blue support (~8%),
+   Sky Blue for action & AI (~5%), Coin Gold for value (~2%, rare).
+   Neutrals are tinted from navy (hue ≈ 260) so nothing drifts warm. */
+
+:root {
+  color-scheme: light;
+
+  /* The five brand colours */
+  --white: oklch(0.991 0 0); /* #FCFCFC */
+  --navy: oklch(0.34 0.119 260); /* #0C3474 */
+  --ice: oklch(0.92 0.047 224); /* #C4ECFC */
+  --sky: oklch(0.674 0.162 248); /* #2C9CF4 */
+  --gold: oklch(0.812 0.167 81); /* #F8B403 */
+
+  --bg: var(--white);
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.975 0.011 232);
+  /* Navy on white is 11.6:1 — headings and body both */
+  --fg: var(--navy);
+  --fg-muted: oklch(0.46 0.055 258);
+  --fg-subtle: oklch(0.56 0.04 255);
+  --line: oklch(0.34 0.119 260 / 0.11);
+  /* Text-safe accent stays navy (Sky Blue fails as text on white, 2.9:1) */
+  --accent: var(--navy);
+  --accent-hover: oklch(0.42 0.13 258);
+  /* Sky Blue — focus rings, active indicators, AI moments, icons, borders */
+  --accent-bright: var(--sky);
+  --accent-fg: oklch(1 0 0);
+  /* Ice Blue — selected chips, info panels, soft highlights (navy text on it) */
+  --accent-soft: var(--ice);
+  --success: var(--sky);
+  --bubble-user: var(--navy);
+  --bubble-agent: oklch(0.955 0.018 232);
+
+  /* Channel skins for the phone chat demo (WhatsApp / Instagram DM) */
+  --wa-paper: oklch(0.955 0.014 80);
+  --wa-out: oklch(0.95 0.06 140);
+  --wa-in: oklch(1 0 0);
+  --wa-green: oklch(0.62 0.15 152);
+  --wa-tick: oklch(0.66 0.13 235);
+  --wa-notice: oklch(0.96 0.05 95);
+  --ig-in: oklch(0.945 0 0);
+  --ig-out: linear-gradient(135deg, oklch(0.55 0.24 300), oklch(0.6 0.2 262));
+  --ig-blue: oklch(0.62 0.19 255);
+  --ig-ring: conic-gradient(from 200deg, oklch(0.8 0.17 85), oklch(0.65 0.24 25), oklch(0.58 0.25 350), oklch(0.55 0.24 300), oklch(0.8 0.17 85));
+  --glass: oklch(0.991 0 0 / 0.72);
+  --image-outline: oklch(0 0 0 / 0.1);
+
+  /* Hero backdrop — ice blue high up, settling into the white canvas */
+  --sky-1: oklch(0.92 0.047 224);
+  --sky-2: oklch(0.955 0.026 228);
+  --sky-3: var(--white);
+  --on-sky-muted: oklch(0.42 0.06 258);
+
+  /* Primary actions are Deep Navy with white text (11.6:1) */
+  --primary: var(--navy);
+  --primary-hover: oklch(0.42 0.13 258);
+
+  --shadow-sm: 0 0 0 1px var(--line), 0 1px 2px oklch(0.34 0.119 260 / 0.06);
+  --shadow-md:
+    0 0 0 1px var(--line), 0 1px 2px oklch(0.34 0.119 260 / 0.06),
+    0 8px 24px -8px oklch(0.34 0.119 260 / 0.16);
+  --shadow-lg:
+    0 0 0 1px oklch(0.34 0.119 260 / 0.07), 0 2px 4px oklch(0.34 0.119 260 / 0.06),
+    0 30px 70px -20px oklch(0.34 0.119 260 / 0.28);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /* shadcn/ui semantic tokens, mapped onto the brand colours above */
+  --background: var(--bg);
+  --foreground: var(--fg);
+  --card: var(--surface);
+  --card-foreground: var(--fg);
+  --popover: var(--surface);
+  --popover-foreground: var(--fg);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--navy);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--fg-muted);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--sky);
+  --chart-1: var(--navy);
+  --chart-2: var(--sky);
+  --chart-3: var(--ice);
+  --chart-4: var(--gold);
+  --chart-5: var(--fg-subtle);
+  --radius: 0.625rem;
+  --sidebar: var(--surface-2);
+  --sidebar-foreground: var(--fg);
+  --sidebar-primary: var(--navy);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: var(--ice);
+  --sidebar-accent-foreground: var(--navy);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--sky);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-bright: var(--accent-bright);
+  --color-primary: var(--primary);
+  --color-success: var(--success);
+  --color-on-sky-muted: var(--on-sky-muted);
+  --color-navy: var(--navy);
+  --color-ice: var(--ice);
+  --color-sky: var(--sky);
+  --color-gold: var(--gold);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-pixel: var(--font-geist-pixel), var(--font-geist-mono), ui-monospace, monospace;
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+/* Paper grain — a fixed, very light noise layer */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.12;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.38  0 0 0 0 0.52  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+
+:focus-visible {
+  /* Sky Blue is the focus colour — it's a border, never text */
+  outline: 2px solid var(--sky);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ─── Type scale (size + leading + tracking move together) ──────────── */
+
+/* Display face: Geist Pixel, "Line" element shape (ELSH 75 — horizontal
+   scanlines). Pixel monospace is wide, so sizes run a step smaller and
+   tracking stays neutral; never use it below ~28px. */
+@utility font-pixel {
+  font-family: var(--font-geist-pixel), var(--font-geist-mono), ui-monospace, monospace;
+  font-variation-settings: "ELSH" 75;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+@utility text-display {
+  font-family: var(--font-geist-pixel), var(--font-geist-mono), ui-monospace, monospace;
+  font-variation-settings: "ELSH" 75;
+  font-size: clamp(2.5rem, 1.4rem + 4.2vw, 4.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+@utility text-title {
+  font-family: var(--font-geist-pixel), var(--font-geist-mono), ui-monospace, monospace;
+  font-variation-settings: "ELSH" 75;
+  font-size: clamp(1.875rem, 1.3rem + 2.3vw, 3.125rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+@utility text-headline {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  font-weight: 600;
+}
+
+@utility text-lede {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  line-height: 1.45;
+  letter-spacing: -0.008em;
+  text-wrap: pretty;
+}
+
+@utility text-eyebrow {
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+}
+
+/* ─── Sky ───────────────────────────────────────────────────────────── */
+
+@utility bg-sky {
+  background: linear-gradient(
+    to bottom,
+    var(--sky-1) 0%,
+    var(--sky-2) 38%,
+    var(--sky-3) 72%,
+    var(--bg) 100%
+  );
+}
+
+@utility bg-sky-up {
+  background: linear-gradient(to bottom, var(--bg) 0%, var(--sky-3) 25%, var(--sky-2) 55%, var(--sky-3) 85%, var(--bg) 100%);
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────────
+   Kinetic: a fill slides up from the bottom while each letter rolls over
+   to its twin (see _components/kinetic.tsx). Fill animates with transform,
+   not height, so it stays on the compositor. */
+
+@utility btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  height: 2.75rem;
+  padding-inline: 1.25rem;
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 550;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  transition:
+    transform 160ms var(--ease-out),
+    color 0.4s cubic-bezier(0.76, 0, 0.24, 1),
+    box-shadow 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--btn-fill);
+    transform: scaleY(0);
+    transform-origin: 50% 100%;
+    transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::before {
+      transform: scaleY(1);
+    }
+  }
+
+  &:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::before {
+      transition: none;
+    }
+    &:active {
+      transform: none;
+    }
+  }
+}
+
+@utility btn-primary {
+  /* Fill rises a step lighter in the navy family — white text stays AAA */
+  --btn-fill: var(--primary-hover);
+  background: var(--primary);
+  color: oklch(1 0 0);
+}
+
+@utility btn-secondary {
+  --btn-fill: var(--primary);
+  /* Incoming letters arrive already in the fill's text colour, so the label
+     reads at every frame: dark letters roll out as white ones roll in. */
+  --btn-text-hover: oklch(1 0 0);
+  background: oklch(1 0 0 / 0.8);
+  color: var(--fg);
+  /* A hairline outline, no drop shadow */
+  box-shadow: 0 0 0 1px var(--line);
+
+  & svg {
+    transition: color 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+    &:hover svg {
+      color: oklch(1 0 0);
+    }
+  }
+
+  /* Keyboard focus and reduced motion don't roll letters, so swap the colour */
+  &:focus-visible {
+    color: oklch(1 0 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) and (hover: hover) {
+    &:hover {
+      color: oklch(1 0 0);
+    }
+  }
+}
+
+/* Kinetic label: each character is a clipped window with two stacked copies */
+/* Label always sits above the sliding fill */
+.k-wrap {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  pointer-events: none;
+}
+.btn > svg {
+  position: relative;
+  z-index: 1;
+}
+.k-char {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.2;
+}
+.k-space {
+  display: inline-block;
+  width: 0.28em;
+}
+.k-p,
+.k-s {
+  display: inline-block;
+}
+/* Hidden by opacity only — GSAP owns the transform (see kinetic.tsx) */
+.k-s {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  color: var(--btn-text-hover, currentColor);
+}
+.btn:focus-visible .k-s {
+  color: currentColor;
+}
+
+/* ─── Glass chrome (Apple materials) ────────────────────────────────── */
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: var(--bg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* ─── Chat typing dots ──────────────────────────────────────────────── */
+
+.typing span {
+  animation: typing 1.1s ease-in-out infinite;
+}
+.typing span:nth-child(2) {
+  animation-delay: 140ms;
+}
+.typing span:nth-child(3) {
+  animation-delay: 280ms;
+}
+
+@keyframes typing {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.chat-feed {
+  mask-image: linear-gradient(to bottom, transparent 0, black 3rem);
+}
+
+/* WhatsApp's doodle wallpaper, tiled under the feed */
+.wa-wallpaper {
+  background-color: var(--wa-paper);
+  background-image: url("/chat/whatsapp-wallpaper.svg");
+  background-size: 180px 180px;
+}
+
+/* ─── Voice waveform ────────────────────────────────────────────────── */
+
+.wave span {
+  transform-origin: center;
+  animation: wave 1.2s var(--ease-in-out) infinite alternate;
+  animation-delay: calc(var(--i) * -110ms);
+}
+
+@keyframes wave {
+  from {
+    transform: scaleY(0.3);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* ─── Workflow pulse ────────────────────────────────────────────────── */
+
+.pulse-line {
+  background: linear-gradient(to bottom, transparent, var(--sky) 50%, transparent);
+  background-size: 100% 200%;
+  animation: pulse-line 2.4s linear infinite;
+}
+
+@keyframes pulse-line {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: 0 -100%;
+  }
+}
+
+/* ─── Reduced motion: no loops ────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .typing span,
+  .wave span,
+  .pulse-line {
+    animation: none;
+  }
+}
+
+/* ─── Intro ───────────────────────────────────────────────────────── */
+
+html.intro-lock,
+html.intro-lock body {
+  overflow: hidden;
+}
+
+/* While a mid-page reload is being restored, hold the page back so the hero
+   doesn't flash before the jump (cleared in gsap.tsx once in place). */
+html.restoring #page {
+  opacity: 0;
+}
+#page {
+  transition: opacity 0.35s ease;
+}
+
+/* Set by an inline head script when the page won't open on the hero */
+html.intro-skip [data-loader] {
+  display: none;
+}
+
+/* ─── Lenis (smooth scroll) ─────────────────────────────────────────── */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}

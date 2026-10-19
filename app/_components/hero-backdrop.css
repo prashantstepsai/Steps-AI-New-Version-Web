@@ -1,0 +1,47 @@
+/* ─── Hero backdrop (world map) ───────────────────────────────────── */
+
+.hero-map {
+  background: url("/hero/world-map.png") center / contain no-repeat;
+  opacity: 0.42;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
+}
+
+/* ─── Hero fits one screen (desktop) ─────────────────────────────── */
+
+@media (min-width: 64rem) {
+  .hero-screen {
+    height: 100svh;
+    min-height: 40rem;
+  }
+  /* nav (≈4rem) at the top */
+  .hero-grid {
+    padding-top: 5.5rem;
+    padding-bottom: 3rem;
+  }
+  .hero-screen .text-display {
+    font-size: min(clamp(2.5rem, 1.4rem + 4.2vw, 4.75rem), 8.4svh);
+  }
+}
+
+/* ─── Channels: pinned cards ──────────────────────────────────────── */
+
+.pin-card {
+  filter: drop-shadow(0 24px 30px oklch(0.3 0.08 260 / 0.1)) drop-shadow(0 2px 4px oklch(0.3 0.08 260 / 0.06));
+  transform-origin: 62% 0; /* swings from the pin */
+}
+
+.pin-map {
+  background-image: url("/hero/world-map.png");
+  background-size: 300% auto;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  /* map shows through the middle only — number on top, copy below stay clean */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 14%, #000 32%, #000 50%, transparent 68%);
+  mask-image: linear-gradient(to bottom, transparent 14%, #000 32%, #000 50%, transparent 68%);
+}
+
+.pin-head {
+  background: radial-gradient(circle at 32% 28%, oklch(0.5 0.12 258), var(--primary) 62%);
+  box-shadow: 0 6px 12px oklch(0.3 0.1 260 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.18), 0 0 0 3px var(--ice);
+}

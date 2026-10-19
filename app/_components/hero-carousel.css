@@ -1,0 +1,13 @@
+/* Theme the vendored DepthCarousel for the hero: the chat cards bring their
+   own frame and shadow, so the carousel's dark card chrome steps aside. */
+.hero-carousel .depth-carousel__card {
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+}
+.hero-carousel .depth-carousel__tint {
+  border-radius: 32px;
+}
+.hero-carousel .depth-carousel:focus-visible {
+  outline: 2px solid var(--sky);
+}
